@@ -6,6 +6,13 @@ import { SearchContext } from '../../App';
 export const Saerch = () => {
   const { searchValue, setSearchValue } = React.useContext(SearchContext);
 
+  const inputRef = React.useRef();
+
+  const onClockClear = () => {
+    setSearchValue('');
+    inputRef.current.focus();
+  };
+
   return (
     <div className={styles.root}>
       <svg
@@ -42,6 +49,7 @@ export const Saerch = () => {
         />
       </svg>
       <input
+        ref={inputRef}
         value={searchValue}
         onChange={(event) => setSearchValue(event.target.value)}
         className={styles.input}
@@ -49,7 +57,7 @@ export const Saerch = () => {
       />
       {searchValue && (
         <svg
-          onClick={() => setSearchValue('')}
+          onClick={onClockClear}
           className={styles.clearIcon}
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg">
