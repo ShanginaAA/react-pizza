@@ -6,7 +6,6 @@ import Categories from '../components/Categories';
 import Sort, { sortList } from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import Sceleton from '../components/PizzaBlock/Sceleton';
-import { SearchContext } from '../App';
 import { Pagination } from '../components/Pagination';
 
 import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
@@ -16,13 +15,10 @@ import { fetchPizzas } from '../redux/slices/pizzaSlice';
 const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
+
   const { items, status } = useSelector((state) => state.pizza);
-
-  const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
-
-  const { searchValue } = React.useContext(SearchContext);
+  const { categoryId, sort, currentPage, searchValue } = useSelector((state) => state.filter);
 
   const onChangeCategory = (id) => {
     dispatch(setCategoryId(id));
@@ -41,7 +37,6 @@ const Home = () => {
     dispatch(
       fetchPizzas({
         sortBy,
-
         order,
         category,
         search,
@@ -64,7 +59,7 @@ const Home = () => {
       navigate(`?${queryString}`);
     }
     isMounted.current = true;
-  }, []);
+  }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
   // Парсим параметры при первом рендере
   React.useEffect(() => {
@@ -74,7 +69,6 @@ const Home = () => {
       const sort = sortList.find((obj) => obj.sortProperty === params.sortProperty);
 
       dispatch(setFilters({ ...params, sort }));
-      isSearch.current = true;
     }
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
