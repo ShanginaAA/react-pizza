@@ -59,6 +59,8 @@ const Home = () => {
       navigate(`?${queryString}`);
     }
     isMounted.current = true;
+
+    getPizzas();
   }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
   // Парсим параметры при первом рендере
