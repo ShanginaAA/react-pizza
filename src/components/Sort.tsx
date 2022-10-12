@@ -1,3 +1,4 @@
+import { RecordWithTtl } from 'dns';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSort } from '../redux/slices/filterSlice';
@@ -5,6 +6,10 @@ import { setSort } from '../redux/slices/filterSlice';
 type SortItem = {
   name: string;
   sortProperty: string;
+};
+
+type PopupClick = MouseEvent & {
+  path: Node[];
 };
 
 export const sortList: SortItem[] = [
@@ -29,8 +34,10 @@ function Sort() {
   };
 
   React.useEffect(() => {
-    const handleClickOutside = (event: any) => {
-      if (!event.path.includes(sortRef.current)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      const _event = event as PopupClick;
+
+      if (sortRef.current && !_event.path.includes(sortRef.current)) {
         setOpen(false);
       }
     };
