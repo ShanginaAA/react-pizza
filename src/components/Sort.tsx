@@ -2,6 +2,7 @@ import { RecordWithTtl } from 'dns';
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSort } from '../redux/slices/filterSlice';
+import { RootState } from '../redux/store';
 
 type SortItem = {
   name: string;
@@ -23,7 +24,7 @@ export const sortList: SortItem[] = [
 
 function Sort() {
   const dispatch = useDispatch();
-  const sort = useSelector((state: any) => state.filter.sort);
+  const sort = useSelector((state: RootState) => state.filter.sort);
   const sortRef = React.useRef<HTMLDivElement>(null);
 
   const [open, setOpen] = React.useState(false);

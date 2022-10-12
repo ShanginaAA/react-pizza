@@ -11,14 +11,17 @@ import { Pagination } from '../components/Pagination';
 import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
 import qs from 'qs';
 import { fetchPizzas } from '../redux/slices/pizzaSlice';
+import { RootState } from '../redux/store';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isMounted = React.useRef(false);
 
-  const { items, status } = useSelector((state: any) => state.pizza);
-  const { categoryId, sort, currentPage, searchValue } = useSelector((state: any) => state.filter);
+  const { items, status } = useSelector((state: RootState) => state.pizza);
+  const { categoryId, sort, currentPage, searchValue } = useSelector(
+    (state: RootState) => state.filter,
+  );
 
   const onChangeCategory = (idx: number) => {
     dispatch(setCategoryId(idx));
@@ -41,7 +44,7 @@ const Home: React.FC = () => {
         order,
         category,
         search,
-        currentPage,
+        currentPage: String(currentPage),
       }),
     );
 
