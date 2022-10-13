@@ -8,13 +8,7 @@ import { PizzaBlock } from '../components/PizzaBlock';
 import Sceleton from '../components/PizzaBlock/Sceleton';
 import { Pagination } from '../components/Pagination';
 
-import {
-  FilterSliceState,
-  setCategoryId,
-  setCurrentPage,
-  setFilters,
-} from '../redux/slices/filterSlice';
-import qs from 'qs';
+import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
 import { fetchPizzas, SearchPizzaParams } from '../redux/slices/pizzaSlice';
 import { RootState, useAppDispatch } from '../redux/store';
 
@@ -28,9 +22,9 @@ const Home: React.FC = () => {
     (state: RootState) => state.filter,
   );
 
-  const onChangeCategory = (idx: number) => {
+  const onChangeCategory = React.useCallback((idx: number) => {
     dispatch(setCategoryId(idx));
-  };
+  }, []);
 
   const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page));
@@ -104,7 +98,7 @@ const Home: React.FC = () => {
     <>
       <div className="content__top">
         <Categories value={categoryId} onChangeCategory={onChangeCategory} />
-        <Sort />
+        <Sort value={sort} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === 'error' ? (
